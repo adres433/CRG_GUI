@@ -5,101 +5,19 @@ from ftplib import FTP
 if __name__ != '__main__':
     pass
 else:
+    tempPath = str(os.getenv("APPDATA")+"/CRG").replace("\\", "/")
+    if not os.path.exists(tempPath):
+        os.mkdir(tempPath)
+        file =open(f"{tempPath}/reader.cfg", "w")
+        file.write("ustawienie=wartosc\n" * 10)
+        file.close()
+        file =open("output_reader.txt", "w")
+        file.write("##")
+        file.close()
+        file =open("oscam.server.bak", "w")
+        file.write("##")
+        file.close()
     class MainWindow:
-
-        ## EVENT FOR MOVE WINDOW
-        def moveWindow(self, event):
-
-            x, y = self.root.winfo_pointerxy()  ## pozycja kursora na ekranie
-            a = self.root.winfo_rootx()  ## pozycja rogu okna na ekranie
-            b = self.root.winfo_rooty()  ## pozycja rogu okna na ekranie
-
-            moveX = self.curPosX - x
-            moveY = self.curPosY - y
-
-            self.root.geometry(f"+{a - moveX}+{b - moveY}")
-            self.curPosX, self.curPosY = self.root.winfo_pointerxy()
-
-        def grabPos(self, event):
-
-            self.curPosX, self.curPosY = self.root.winfo_pointerxy()
-
-        def genReaders(self):
-            name = self.nameEntry.get()
-            text = self.clineArea.get(float(1), tk.END).split("\n")  ## opuszczamy ostatni pusty element
-            data = []
-
-            for i, line in enumerate(text):
-                tempLine = line.split(" ")
-                if len(tempLine) < 5:
-                    break
-                tempLine[0] = f"\n\n[Reader]\nlabel={name}_{str(i+1)}\n"
-                tempLine[1] = f"device={tempLine[1]}\n"
-                tempLine[2] = f"port={tempLine[2]}\n"
-                tempLine[3] = f"user={tempLine[3]}\n"
-                tempLine[4] = f"password={tempLine[4]}\n"
-                for j in self.configData[0:-2]:
-                    tempLine.append(j)
-                data.append(tempLine)
-
-            if len(data) >= 1:
-
-                ftpAddr = self.configData[-2].split('=')[1].replace("\n", "")
-                ftp = FTP(host=ftpAddr)
-                ftp.login(user='root', passwd=self.configData[-1].split('=')[1])
-                ftp.cwd("usr/keys/")
-
-                ## download old file and save backup from FTP
-                bkpFile = open("oscam.server.bak", 'wb')
-                ftp.retrbinary('RETR ' + "oscam.server", bkpFile.write)
-                bkpFile.close()
-
-                ## read local backup
-                file = open("oscam.server.bak", "r")
-                tempData = file.read()
-                tempData += "\n"
-                file.close()
-
-                ## save new file
-                file = open("output_reader.txt", "w")
-                for i in data:
-                    tempData += "".join(i)
-                file.write(tempData)
-                file.close()
-
-                ## upload new file to FTP
-                with open("output_reader.txt", 'rb') as file:
-                    ftp.storbinary('STOR '+"oscam.server", file, callback=self.root.destroy())
-                    ftp.quit()
-
-            return
-
-        def cfgFileModify(self, nData: str = ""):
-
-            file = open(f"{self.cfgFile}\\reader.cfg", "r+")
-            data = ""
-
-            if len(nData) < 1:
-                data = file.readlines()
-            else:
-                file.write(nData)
-
-            file.close()
-            return data
-
-        def saveConfig(self):
-            cfgReader = self.readerArea.get(float(1), tk.END)[0:-1]
-            if cfgReader[-1] != '\n':
-                cfgReader += "\n"
-            cfgReader += f"host={self.hostEntry.get()}"
-            if self.hostEntry.get().find("\n") == -1:
-                cfgReader += "\n"
-            cfgReader += f"passHost={self.passEntry.get()}"
-            self.cfgFileModify(cfgReader)
-            self.configData = cfgReader
-
-        def closeApp(self):
-            self.root.destroy()
 
         def __init__(self, bgColor: str, titleColor: str, width: int, height: int):
 
@@ -109,7 +27,7 @@ else:
             self.curPosY = 0
             self.winBgColor = bgColor
             self.winTitleColor = titleColor
-            self.cfgFile = os.getenv("APPDATA")+"\\CRG"
+            self.cfgFile = (os.getenv("APPDATA")+"/CRG").replace("\\", "/")
             self.configData = self.cfgFileModify()
 
 
@@ -210,21 +128,102 @@ else:
             self.clsBtn.grid(row=0, column=2, padx=25, sticky=tk.E)
             ## END BUTTONS
 
-            if not os.path.exists(self.cfgFile):
-                os.mkdir(self.cfgFile)
-                file = open(f"{self.cfgFile}\\reader.cfg", "w")
-                file.write("ustawienie=wartosc\n" * 10)
-                file.close()
-            if not os.path.exists("output_reader.txt"):
-                file = open("output_reader.txt", "w")
-                file.write("")
-                file.close()
-            if not os.path.exists("oscam.server.bak"):
-                file = open("oscam.server.bak", "w")
-                file.write("")
-                file.close()
             ##main loop of GUI
             self.root.mainloop()
+
+        ## EVENT FOR MOVE WINDOW
+        def moveWindow(self, event):
+
+            x, y = self.root.winfo_pointerxy()  ## pozycja kursora na ekranie
+            a = self.root.winfo_rootx()  ## pozycja rogu okna na ekranie
+            b = self.root.winfo_rooty()  ## pozycja rogu okna na ekranie
+
+            moveX = self.curPosX - x
+            moveY = self.curPosY - y
+
+            self.root.geometry(f"+{a - moveX}+{b - moveY}")
+            self.curPosX, self.curPosY = self.root.winfo_pointerxy()
+
+        def grabPos(self, event):
+
+            self.curPosX, self.curPosY = self.root.winfo_pointerxy()
+
+        def genReaders(self):
+            name = self.nameEntry.get()
+            text = self.clineArea.get(float(1), tk.END).split("\n")  ## opuszczamy ostatni pusty element
+            data = []
+
+            for i, line in enumerate(text):
+                tempLine = line.split(" ")
+                if len(tempLine) < 5:
+                    break
+                tempLine[0] = f"\n\n[Reader]\nlabel={name}_{str(i+1)}\n"
+                tempLine[1] = f"device={tempLine[1]}\n"
+                tempLine[2] = f"port={tempLine[2]}\n"
+                tempLine[3] = f"user={tempLine[3]}\n"
+                tempLine[4] = f"password={tempLine[4]}\n"
+                for j in self.configData[0:-2]:
+                    tempLine.append(j)
+                data.append(tempLine)
+
+            if len(data) >= 1:
+
+                ftpAddr = self.configData[-2].split('=')[1].replace("\n", "")
+                ftp = FTP(host=ftpAddr)
+                ftp.login(user='root', passwd=self.configData[-1].split('=')[1])
+                ftp.cwd("usr/keys/")
+
+                ## download old file and save backup from FTP
+                bkpFile = open("oscam.server.bak", 'wb')
+                ftp.retrbinary('RETR ' + "oscam.server", bkpFile.write)
+                bkpFile.close()
+
+                ## read local backup
+                file = open("oscam.server.bak", "r")
+                tempData = file.read()
+                tempData += "\n"
+                file.close()
+
+                ## save new file
+                file = open("output_reader.txt", "w")
+                for i in data:
+                    tempData += "".join(i)
+                file.write(tempData)
+                file.close()
+
+                ## upload new file to FTP
+                with open("output_reader.txt", 'rb') as file:
+                    ftp.storbinary('STOR '+"oscam.server", file, callback=self.root.destroy())
+                    ftp.quit()
+
+            return
+
+        def cfgFileModify(self, nData: str = ""):
+
+            file = open(f"{self.cfgFile}/reader.cfg", "r+")
+            data = ""
+
+            if len(nData) < 1:
+                data = file.readlines()
+            else:
+                file.write(nData)
+
+            file.close()
+            return data
+
+        def saveConfig(self):
+            cfgReader = self.readerArea.get(float(1), tk.END)[0:-1]
+            if cfgReader[-1] != '\n':
+                cfgReader += "\n"
+            cfgReader += f"host={self.hostEntry.get()}"
+            if self.hostEntry.get().find("\n") == -1:
+                cfgReader += "\n"
+            cfgReader += f"passHost={self.passEntry.get()}"
+            self.cfgFileModify(cfgReader)
+            self.configData = cfgReader
+
+        def closeApp(self):
+            self.root.destroy()
 
         def showGenWindow(self):
             self.genFrame.tkraise()
