@@ -203,11 +203,12 @@ else:
                     ## save new file
                     tempData = ""
                     file = open("output_reader.txt", "w")
-                    print(data)
                     for i in data:
                         tempData += "".join(i)
                     file.write(tempData)
                     file.close()
+                    ##os.system("notepad.exe output_reader.txt")
+                    os.startfile('output_reader.txt')
 
             return
 
