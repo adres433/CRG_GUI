@@ -77,7 +77,7 @@ else:
             self.cfgFrame = tk.Frame(self.root, bg=self.winBgColor)
             self.conCfgLabel = tk.Label(self.cfgFrame, text="Wprowadź wspólną konfiguracje czytników:", bg=self.winBgColor)
             self.readerArea = tk.Text(self.cfgFrame, width=55, height=10, font=("TkMenuFont", 10))
-            self.hostCfgLabel = tk.Label(self.cfgFrame, text="Adres FTP dekodera:", bg=self.winBgColor)
+            self.hostCfgLabel = tk.Label(self.cfgFrame, text="Adres FTP dekodera [Jeśli puste - TYLKO GENERUJ DO PLIKU]:", bg=self.winBgColor)
             self.hostEntry= tk.Entry(self.cfgFrame, width=10, font=("TkMenuFont", 10))
             self.passCfgLabel = tk.Label(self.cfgFrame, text="Hasło FTP:", bg=self.winBgColor)
             self.passEntry = tk.Entry(self.cfgFrame, width=10, font=("TkMenuFont", 10))
@@ -158,43 +158,56 @@ else:
                 if len(tempLine) < 5:
                     break
                 tempLine[0] = f"\n\n[Reader]\nlabel={name}_{str(i+1)}\n"
-                tempLine[1] = f"device={tempLine[1]}\n"
-                tempLine[2] = f"port={tempLine[2]}\n"
-                tempLine[3] = f"user={tempLine[3]}\n"
-                tempLine[4] = f"password={tempLine[4]}\n"
+                tempLine[1] = f"device={tempLine[1]},{tempLine[2]}\n"
+                tempLine[2] = f"user={tempLine[3]}\n"
+                tempLine[3] = f"password={tempLine[4]}\n"
+
+                tempLine.pop(4)
                 for j in self.configData[0:-2]:
                     tempLine.append(j)
                 data.append(tempLine)
 
             if len(data) >= 1:
 
-                ftpAddr = self.configData[-2].split('=')[1].replace("\n", "")
-                ftp = FTP(host=ftpAddr)
-                ftp.login(user='root', passwd=self.configData[-1].split('=')[1])
-                ftp.cwd("usr/keys/")
+                tempData: str
 
-                ## download old file and save backup from FTP
-                bkpFile = open("oscam.server.bak", 'wb')
-                ftp.retrbinary('RETR ' + "oscam.server", bkpFile.write)
-                bkpFile.close()
+                if len(self.hostEntry.get()) >= 7:
+                    ftpAddr = self.configData[-2].split('=')[1].replace("\n", "")
+                    ftp = FTP(host=ftpAddr)
+                    ftp.login(user='root', passwd=self.configData[-1].split('=')[1])
+                    ftp.cwd("usr/keys/")
 
-                ## read local backup
-                file = open("oscam.server.bak", "r")
-                tempData = file.read()
-                tempData += "\n"
-                file.close()
+                    ## download old file and save backup from FTP
+                    bkpFile = open("oscam.server.bak", 'wb')
+                    ftp.retrbinary('RETR ' + "oscam.server", bkpFile.write)
+                    bkpFile.close()
 
-                ## save new file
-                file = open("output_reader.txt", "w")
-                for i in data:
-                    tempData += "".join(i)
-                file.write(tempData)
-                file.close()
+                    ## read local backup
+                    file = open("oscam.server.bak", "r")
+                    tempData = file.read()
+                    tempData += "\n"
+                    file.close()
 
-                ## upload new file to FTP
-                with open("output_reader.txt", 'rb') as file:
-                    ftp.storbinary('STOR '+"oscam.server", file, callback=self.root.destroy())
-                    ftp.quit()
+                    ## save new file
+                    file = open("output_reader.txt", "w")
+                    for i in data:
+                        tempData += "".join(i)
+                    file.write(tempData)
+                    file.close()
+
+                    ## upload new file to FTP
+                    with open("output_reader.txt", 'rb') as file:
+                        ftp.storbinary('STOR '+"oscam.server", file, callback=self.root.destroy())
+                        ftp.quit()
+                else:
+                    ## save new file
+                    tempData = ""
+                    file = open("output_reader.txt", "w")
+                    print(data)
+                    for i in data:
+                        tempData += "".join(i)
+                    file.write(tempData)
+                    file.close()
 
             return
 
