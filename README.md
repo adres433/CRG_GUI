@@ -19,7 +19,10 @@ which allow readers update directly from app.
 Enaught give host adress, port and password to FTP.
 
 SCREEN:
+
 ![Main screen](./screen/main.png)
+
+
 ![Config screen](./screen/cfg.png)
 
 ### TECHNOLOGIES
