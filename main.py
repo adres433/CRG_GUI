@@ -1,5 +1,7 @@
+#!./Scripts/python
 import os
 import tkinter as tk
+from tkinter import messagebox
 from ftplib import FTP
 
 if __name__ != '__main__':
@@ -75,18 +77,24 @@ else:
 
             ## CONFIG CONTENT
             self.cfgFrame = tk.Frame(self.root, bg=self.winBgColor)
-            self.conCfgLabel = tk.Label(self.cfgFrame, text="Wprowadź wspólną konfiguracje czytników:", bg=self.winBgColor)
+            self.conCfgLabel = tk.Label(self.cfgFrame, text="Wprowadź wspólną konfiguracje czytników:",
+                                        bg=self.winBgColor)
             self.readerArea = tk.Text(self.cfgFrame, width=55, height=10, font=("TkMenuFont", 10))
-            self.hostCfgLabel = tk.Label(self.cfgFrame, text="Adres FTP dekodera [Jeśli puste - TYLKO GENERUJ DO PLIKU]:", bg=self.winBgColor)
+            self.hostCfgLabel = tk.Label(self.cfgFrame,
+                                         text="Adres FTP dekodera [Jeśli puste - TYLKO GENERUJ DO PLIKU]:",
+                                         bg=self.winBgColor)
             self.hostEntry= tk.Entry(self.cfgFrame, width=10, font=("TkMenuFont", 10))
             self.passCfgLabel = tk.Label(self.cfgFrame, text="Hasło FTP:", bg=self.winBgColor)
             self.passEntry = tk.Entry(self.cfgFrame, width=10, font=("TkMenuFont", 10))
+            self.catalogCfgLabel = tk.Label(self.cfgFrame, text="Katalog FTP [np. usr/keys/  lub  etc/tuxbox/config/]:", bg=self.winBgColor)
+            self.catalogEntry = tk.Entry(self.cfgFrame, width=10, font=("TkMenuFont", 10))
 
-            for i in self.configData[0:-2]:
+            for i in self.configData[0:-3]:
                 self.readerArea.insert(tk.END, i)
 
-            self.hostEntry.insert(0, self.configData[-2:-1][0].split("=")[1])
-            self.passEntry.insert(0, self.configData[-1:][0].split("=")[1])
+            self.hostEntry.insert(0, self.configData[-3:-2][0].split("=")[1])
+            self.passEntry.insert(0, self.configData[-2:-1][0].split("=")[1])
+            self.catalogEntry.insert(0, self.configData[-1:][0].split("=")[1])
 
             self.cfgFrame.grid(row=2, column=1, columnspan=3, sticky=tk.NSEW)
             self.conCfgLabel.grid(row=0, column=1, columnspan=3, sticky=tk.W, padx=50, pady=15)
@@ -95,6 +103,8 @@ else:
             self.hostEntry.grid(row=3, column=1, columnspan=2, sticky=tk.EW, padx=0, pady=2)
             self.passCfgLabel.grid(row=4, column=1, sticky=tk.W, padx=0, pady=2)
             self.passEntry.grid(row=5, column=1, columnspan=2, sticky=tk.EW, padx=0, pady=2)
+            self.catalogCfgLabel.grid(row=6, column=1, sticky=tk.W, padx=0, pady=2)
+            self.catalogEntry.grid(row=7, column=1, columnspan=2, sticky=tk.EW, padx=0, pady=2)
 
             ## END CONFIG CONTENT
 
@@ -149,80 +159,89 @@ else:
             self.curPosX, self.curPosY = self.root.winfo_pointerxy()
 
         def genReaders(self):
-            name = self.nameEntry.get()
-            text = self.clineArea.get(float(1), tk.END).split("\n")  ## opuszczamy ostatni pusty element
-            data = []
 
-            for i, line in enumerate(text):
-                tempLine = line.split(" ")
-                if len(tempLine) < 5:
-                    break
-                tempLine[0] = f"\n\n[Reader]\nlabel={name}_{str(i+1)}\n"
-                tempLine[1] = f"device={tempLine[1]},{tempLine[2]}\n"
-                tempLine[2] = f"user={tempLine[3]}\n"
-                tempLine[3] = f"password={tempLine[4]}\n"
+            try:
 
-                tempLine.pop(4)
-                for j in self.configData[0:-2]:
-                    tempLine.append(j)
-                data.append(tempLine)
+                name = self.nameEntry.get()
+                text = self.clineArea.get(float(1), tk.END).split("\n")  ## opuszczamy ostatni pusty element
+                data = []
 
-            if len(data) >= 1:
+                for i, line in enumerate(text):
+                    tempLine = line.split(" ")
+                    if len(tempLine) < 5:
+                        break
+                    tempLine[0] = f"\n\n[Reader]\nlabel={name}_{str(i+1)}\n"
+                    tempLine[1] = f"device={tempLine[1]},{tempLine[2]}\n"
+                    tempLine[2] = f"user={tempLine[3]}\n"
+                    tempLine[3] = f"password={tempLine[4]}\n"
 
-                tempData: str
+                    tempLine.pop(4)
+                    for j in self.configData[0:-3]:
+                        tempLine.append(j)
+                    data.append(tempLine)
 
-                if len(self.hostEntry.get()) >= 7:
-                    ftpAddr = self.configData[-2].split('=')[1].replace("\n", "")
-                    ftp = FTP(host=ftpAddr)
-                    ftp.login(user='root', passwd=self.configData[-1].split('=')[1])
-                    ftp.cwd("usr/keys/")
+                if len(data) >= 1:
 
-                    ## download old file and save backup from FTP
-                    bkpFile = open("oscam.server.bak", 'wb')
-                    ftp.retrbinary('RETR ' + "oscam.server", bkpFile.write)
-                    bkpFile.close()
+                    tempData: str
 
-                    ## read local backup
-                    file = open("oscam.server.bak", "r")
-                    tempData = file.read()
-                    tempData += "\n"
-                    file.close()
+                    if len(self.hostEntry.get()) >= 7:
+                        ftpAddr = self.configData[-3].split('=')[1].replace("\n", "")
+                        ftp = FTP(host=ftpAddr)
+                        ftp.login(user='root', passwd=self.configData[-2].split('=')[1].replace("\n", ""))
+                        ftp.cwd(self.configData[-1].split('=')[1].replace("\n", ""))    #catalog at FTP server
 
-                    ## save new file
-                    file = open("output_reader.txt", "w")
-                    for i in data:
-                        tempData += "".join(i)
-                    file.write(tempData)
-                    file.close()
+                        ## download old file and save backup from FTP
+                        bkpFile = open("oscam.server.bak", 'wb')
+                        ftp.retrbinary('RETR ' + "oscam.server", bkpFile.write)
+                        bkpFile.close()
 
-                    ## upload new file to FTP
-                    with open("output_reader.txt", 'rb') as file:
-                        ftp.storbinary('STOR '+"oscam.server", file, callback=self.root.destroy())
-                        ftp.quit()
-                else:
-                    ## save new file
-                    tempData = ""
-                    file = open("output_reader.txt", "w")
-                    for i in data:
-                        tempData += "".join(i)
-                    file.write(tempData)
-                    file.close()
-                    ##os.system("notepad.exe output_reader.txt")
-                    os.startfile('output_reader.txt')
+                        ## read local backup
+                        file = open("oscam.server.bak", "r")
+                        tempData = file.read()
+                        tempData += "\n"
+                        file.close()
 
-            return
+                        ## save new file
+                        file = open("output_reader.txt", "w")
+                        for i in data:
+                            tempData += "".join(i)
+                        file.write(tempData)
+                        file.close()
+
+                        ## upload new file to FTP
+                        with open("output_reader.txt", 'rb') as file:
+                            ftp.storbinary('STOR '+"oscam.server", file, callback=self.root.destroy())
+                            ftp.quit()
+                    else:
+                        ## save new file
+                        tempData = ""
+                        file = open("output_reader.txt", "w")
+                        for i in data:
+                            tempData += "".join(i)
+                        file.write(tempData)
+                        file.close()
+                        ##os.system("notepad.exe output_reader.txt")
+                        os.startfile('output_reader.txt')
+            except Exception as err:
+                messagebox.showerror(title=str(type(err)), message=err.__str__())
+            else:
+                messagebox.showinfo("Powodzenie", "Gratulacje.\n\n\nWygląda na to że zapis czytników"
+                                                  "przebiegł pomyślnie.\n\nTeraz nastąpi zamknięcie aplikacji."
+                                                  "\n\nPamiętaj dokonać przeładowania Oscam w dekoderze.")
+                return
 
         def cfgFileModify(self, nData: str = ""):
 
-            file = open(f"{self.cfgFile}/reader.cfg", "r+")
             data = ""
 
             if len(nData) < 1:
+                file = open(f"{self.cfgFile}/reader.cfg", "r")
                 data = file.readlines()
+                file.close()
             else:
+                file = open(f"{self.cfgFile}/reader.cfg", "w")
                 file.write(nData)
-
-            file.close()
+                file.close()
             return data
 
         def saveConfig(self):
@@ -233,8 +252,15 @@ else:
             if self.hostEntry.get().find("\n") == -1:
                 cfgReader += "\n"
             cfgReader += f"passHost={self.passEntry.get()}"
+            if self.passEntry.get().find("\n") == -1:
+                cfgReader += "\n"
+            cfgReader += f"catalogHost={self.catalogEntry.get()}"
             self.cfgFileModify(cfgReader)
             self.configData = cfgReader
+            messagebox.showwarning("Nowa konfiguracja.", "Wczytanie nowej konfiguracji wymaga\n"
+                                                         "uruchomienia aplikacji ponownie.\n\n"
+                                                         "Teraz nastąpi zamnknięcie aplikacji.")
+            self.closeApp()
 
         def closeApp(self):
             self.root.destroy()

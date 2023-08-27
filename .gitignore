@@ -2,4 +2,5 @@
 /venv/
 /myvenv/
 oscam.server.bak
+oscam.server
 output_reader.txt

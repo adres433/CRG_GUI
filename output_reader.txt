@@ -1,0 +1,625 @@
+# oscam.server generated automatically by Streamboard OSCAM 1.20-unstable_svn SVN r11424
+# Read more: http://www.streamboard.tv/svn/oscam/trunk/Distribution/doc/txt/oscam.server.txt
+
+[reader]
+label                         = sci0
+enable                        = 0
+protocol                      = internal
+device                        = /dev/sci0
+detect                        = cd
+mhz                           = 450
+cardmhz                       = 2700
+group                         = 1
+emmcache                      = 1,3,2,0
+
+[reader]
+label                         = nagra
+enable                        = 0
+protocol                      = newcamd
+device                        = 77.45.74.8,10000
+key                           = 0102030405060708091011121314
+user                          = basiadm
+password                      = basiadm
+inactivitytimeout             = 1
+caid                          = 1803
+group                         = 2
+audisabled                    = 1
+
+[reader]
+label                         = conax
+enable                        = 0
+protocol                      = newcamd
+device                        = 77.45.74.8,15000
+key                           = 0102030405060708091011121314
+user                          = basiadm
+password                      = basiadm
+fallback                      = 1
+group                         = 3
+audisabled                    = 1
+
+[reader]
+label                         = seca
+enable                        = 0
+protocol                      = newcamd
+device                        = 77.45.74.8,16000
+key                           = 0102030405060708091011121314
+user                          = basiadm
+password                      = basiadm
+fallback                      = 1
+group                         = 4
+audisabled                    = 1
+
+[reader]
+label                         = nagra2
+enable                        = 0
+protocol                      = newcamd
+device                        = 77.45.74.8,18000
+key                           = 0102030405060708091011121314
+user                          = basiadm
+password                      = basiadm
+fallback                      = 1
+group                         = 5
+
+[reader]
+label                         = sky-germany_1
+protocol                      = cccam_mcs
+device                        = egygold.net,51001
+user                          = myw572
+password                      = zv9w4g
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = sky-germany_2
+protocol                      = cccam_mcs
+device                        = egygold.net,51002
+user                          = myw572
+password                      = zv9w4g
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = sky-germany_3
+protocol                      = cccam_mcs
+device                        = egygold.net,51003
+user                          = myw572
+password                      = zv9w4g
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = sky-germany_4
+protocol                      = cccam_mcs
+device                        = egygold.net,51004
+user                          = myw572
+password                      = zv9w4g
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = sky-germany_5
+protocol                      = cccam_mcs
+device                        = egygold.net,51005
+user                          = myw572
+password                      = zv9w4g
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = sky-germany_6
+protocol                      = cccam_mcs
+device                        = egygold.net,51006
+user                          = myw572
+password                      = zv9w4g
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = STARCLINE_1
+protocol                      = cccam_mcs
+device                        = s6.starcline.com,8800
+user                          = 6star2005
+password                      = 19180399
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = STARCLINE_2
+protocol                      = cccam_mcs
+device                        = s6.starcline.com,8801
+user                          = 6star2005
+password                      = 19180399
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = STARCLINE_3
+protocol                      = cccam
+device                        = s6.starcline.com,8802
+user                          = 6star2005
+password                      = 19180399
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = STARCLINE_4
+protocol                      = cccam_mcs
+device                        = s6.starcline.com,8803
+user                          = 6star2005
+password                      = 19180399
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = STARCLINE_5
+protocol                      = cccam_mcs
+device                        = s6.starcline.com,8804
+user                          = 6star2005
+password                      = 19180399
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = STARCLINE_6
+protocol                      = cccam_mcs
+device                        = s6.starcline.com,8805
+user                          = 6star2005
+password                      = 19180399
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = AIGOOETV_1
+protocol                      = cccam_mcs
+device                        = vip.aigooetv.com,8800
+user                          = ch033
+password                      = 12742202
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = AIGOOETV_2
+protocol                      = cccam_mcs
+device                        = vip.aigooetv.com,8801
+user                          = ch033
+password                      = 12742202
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = AIGOOETV_3
+protocol                      = cccam
+device                        = vip.aigooetv.com,8802
+user                          = ch033
+password                      = 12742202
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = AIGOOETV_4
+protocol                      = cccam
+device                        = vip.aigooetv.com,8803
+user                          = ch033
+password                      = 12742202
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = AIGOOETV_5
+protocol                      = cccam_mcs
+device                        = vip.aigooetv.com,8804
+user                          = ch033
+password                      = 12742202
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = AIGOOETV_6
+protocol                      = cccam_mcs
+device                        = vip.aigooetv.com,8805
+user                          = ch033
+password                      = 12742202
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = AIGOOETV_7
+protocol                      = cccam_mcs
+device                        = vip.aigooetv.com,8806
+user                          = ch033
+password                      = 12742202
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+[reader]
+label                         = AIGOOETV_8
+protocol                      = cccam_mcs
+device                        = vip.aigooetv.com,8807
+user                          = ch033
+password                      = 12742202
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+
+
+
+[Reader]
+label=moresat.ddns.net_1
+device=moresat1.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+
+[Reader]
+label=moresat.ddns.net_2
+device=moresat2.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+
+[Reader]
+label=moresat.ddns.net_3
+device=moresat3.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+
+[Reader]
+label=moresat.ddns.net_4
+device=moresat4.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+
+[Reader]
+label=moresat.ddns.net_5
+device=moresat5.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+
+[Reader]
+label=moresat.ddns.net_6
+device=moresat6.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+
+[Reader]
+label=moresat.ddns.net_7
+device=moresat7.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+
+[Reader]
+label=moresat.ddns.net_8
+device=moresat8.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+ccckeepalive                  = 1
+
+
+
+[Reader]
+label=moresat.ddns.net_1
+device=moresat1.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns.net_2
+device=moresat2.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns.net_3
+device=moresat3.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns.net_4
+device=moresat4.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns.net_5
+device=moresat5.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns.net_6
+device=moresat6.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns.net_7
+device=moresat7.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns.net_8
+device=moresat8.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+
+[Reader]
+label=moresat.ddns_1
+device=moresat1.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns_2
+device=moresat2.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns_3
+device=moresat3.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns_4
+device=moresat4.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns_5
+device=moresat5.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns_6
+device=moresat6.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns_7
+device=moresat7.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
+
+
+[Reader]
+label=moresat.ddns_8
+device=moresat8.ddns.net,51666
+user=12m01k452
+password=wud7y3
+enable                        = 1
+protocol                      = cccam
+inactivitytimeout             = 30
+fallback                      = 1
+group                         = 6
+cccversion                    = 2.0.11
